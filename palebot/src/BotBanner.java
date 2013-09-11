@@ -20,8 +20,10 @@ public class BotBanner extends ListenerAdapter {
 				if (event.getMessage().contains(line)) {
 					System.out.println("banning");
 					banCount++;
-					event.getBot().sendMessage(event.getChannel(),".me - " + banCount
-					+ " : " +event.getUser().getNick() + " -  0 ");
+					if (Palebot.getFloodBarrier() > 0) {
+						event.getBot().sendMessage(event.getChannel(),
+								".me - " + banCount + " : " + event.getUser().getNick() + " -  0 ");
+					}
 					try {
 						Thread.sleep(1000);
 

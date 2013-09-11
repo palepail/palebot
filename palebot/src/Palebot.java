@@ -1,12 +1,19 @@
+import java.awt.event.ActionEvent;
+
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.Timer;
 
 import org.pircbotx.PircBotX;
 
 public class Palebot {
 
 	private static boolean SHOULD_BE_CONNECTED;
+	private static int floodBarrier=5;
+	
+
 	static PircBotX bot = new PircBotX();
 
 	public static void main(String[] args) throws Exception {
@@ -22,6 +29,22 @@ public class Palebot {
 				}
 			}
 		});
+
+		ActionListener task = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(floodBarrier<5)
+				{
+					upFloodBarrier();
+				}
+
+			}
+		};
+
+		Timer timer = new Timer(2000, task); // fire every two seconds
+		timer.setRepeats(true);
+		timer.start();
 
 	}
 
@@ -43,6 +66,19 @@ public class Palebot {
 	public static PircBotX getBot() {
 		// TODO Auto-generated method stub
 		return bot;
+	}
+	/**
+	 * @return the floodBarrier
+	 */
+	public static int getFloodBarrier() {
+		return floodBarrier;
+	}
+
+	/**
+	 * @param floodBarrier the floodBarrier to set
+	 */
+	public static void upFloodBarrier() {
+		Palebot.floodBarrier++;
 	}
 
 }
