@@ -37,6 +37,7 @@ public class Palebot {
 				if(floodBarrier<5)
 				{
 					upFloodBarrier();
+					System.out.println("FloodBarrier: "+ getFloodBarrier());
 				}
 
 			}
@@ -79,6 +80,10 @@ public class Palebot {
 	 */
 	public static void upFloodBarrier() {
 		Palebot.floodBarrier++;
+	}
+	
+	public static void downFloodBarrier() {
+		Palebot.floodBarrier--;
 	}
 
 }

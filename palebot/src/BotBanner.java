@@ -21,6 +21,8 @@ public class BotBanner extends ListenerAdapter {
 					System.out.println("banning");
 					banCount++;
 					if (Palebot.getFloodBarrier() > 0) {
+						Palebot.downFloodBarrier();
+						System.out.println("FloodBarrier: " + Palebot.getFloodBarrier());
 						event.getBot().sendMessage(event.getChannel(),
 								".me - " + banCount + " : " + event.getUser().getNick() + " -  0 ");
 					}

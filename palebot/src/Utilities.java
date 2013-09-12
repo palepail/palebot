@@ -70,13 +70,6 @@ public class Utilities extends ListenerAdapter {
 			timer.setRepeats(true);
 			timer.start();
 			
-			
-			
-			
-			
-		
-		
-			
 		}
 	} 
 }
