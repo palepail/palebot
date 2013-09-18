@@ -43,8 +43,8 @@ import org.pircbotx.exception.IrcException;
 
 public class Window extends JFrame {
 
-	private static final int WIDTH = 1000;
-	private static final int HEIGHT = 600;
+	private static final int WIDTH = 1024;
+	private static final int HEIGHT = 650;
 	
 	JTextArea display;
 	Timer timer = new Timer();
@@ -53,9 +53,9 @@ public class Window extends JFrame {
 	static int port = 6667;
 
 	private JLabel usernameLabel, passwordLabel, serverLabel, channelLabel, bannerLabel, finestLabel, utilitiesLabel;
-	private JTextField usernameTF, passwordTF, serverTF, channelTF;
+	private JTextField usernameTF, passwordTF, serverTF, channelTF, messageTF;
 	private JCheckBox bannerBox, finestBox, utilitiesBox;
-
+    private JButton cButton, dButton, sendButton;
 	private JLabel connectedLabel = new JLabel("Disconnected", SwingConstants.CENTER);
 
 	FinestKO fko = new FinestKO();
@@ -63,7 +63,7 @@ public class Window extends JFrame {
 	Utilities utilities = new Utilities();
 	BoxListener boxListener = new BoxListener();
 	PircBotX bot;
-	private JButton cButton, dButton;
+	
 
 	public Window() {
 
@@ -77,12 +77,15 @@ public class Window extends JFrame {
 		
 		usernameTF = new JTextField("palebot", 15);
 		passwordTF = new JPasswordField(15);
-
+		messageTF = new JTextField("", 15);
+		
 		serverTF = new JTextField("irc.twitch.tv", 15);
 		channelTF = new JTextField("#finestko", 15);
 
 		cButton = new JButton("Connect");
 		dButton = new JButton("Disconnect");
+		sendButton = new JButton("Send");
+		sendButton.addActionListener(new SendButtonHandler());
 		cButton.addActionListener(new ConnectButtonHandler());
 		dButton.addActionListener(new DisconnectButtonHandler());
 
@@ -125,6 +128,9 @@ public class Window extends JFrame {
 	    middlePanel.add ( scroll , BorderLayout.CENTER);
 
 		Container pane = getContentPane();
+		
+		//Create textedit
+		
 
 		// Set the layout.
 
@@ -260,6 +266,21 @@ public class Window extends JFrame {
 		c.gridwidth = 4;
 		pane.add ( middlePanel,c);
 		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 6;
+		c.ipady = 0;
+		c.weightx = 0.5;
+		c.gridwidth = 3;
+		pane.add (messageTF,c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 6;
+		c.weightx = 0.5;
+		c.gridwidth = 1;
+		pane.add (sendButton,c);
+		
 		
 	}
 	
@@ -332,6 +353,21 @@ public class Window extends JFrame {
 			if (!bot.isConnected()) {
 				connect();
 				Palebot.setShouldBeConnected(true);
+			}
+
+		}
+
+	}
+	
+	public class SendButtonHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (bot == null) {
+				bot = Palebot.getBot();
+			}
+			if (bot.isConnected()&&messageTF.getText()!="") {
+				bot.sendMessage(channelTF.getText(), messageTF.getText());
+				messageTF.setText("");
 			}
 
 		}

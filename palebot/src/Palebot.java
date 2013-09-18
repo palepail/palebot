@@ -46,6 +46,8 @@ public class Palebot {
 		Timer timer = new Timer(2000, task); // fire every two seconds
 		timer.setRepeats(true);
 		timer.start();
+		
+		window.revalidate();
 
 	}
 
