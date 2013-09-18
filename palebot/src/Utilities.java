@@ -66,7 +66,7 @@ public class Utilities extends ListenerAdapter {
 				}
 			};
 
-			timer = new Timer(5000, task); // fire every five seconds
+			timer = new Timer(30000, task); // fire every 30 seconds
 			timer.setRepeats(true);
 			timer.start();
 			

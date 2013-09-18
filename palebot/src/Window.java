@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -102,6 +103,7 @@ public class Window extends JFrame {
 		
 		 JPanel middlePanel = new JPanel ();
 		 middlePanel.setBorder ( new TitledBorder ( new EtchedBorder (), "Display Area" ) );
+		 middlePanel.setLayout(new BorderLayout());
 		
 		display = new JTextArea (25,80);
 	    display.setEditable ( false ); // set textArea non-editable
@@ -120,7 +122,7 @@ public class Window extends JFrame {
 	    scroll.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS );
 
 	    //Add Textarea in to middle panel
-	    middlePanel.add ( scroll );
+	    middlePanel.add ( scroll , BorderLayout.CENTER);
 
 		Container pane = getContentPane();
 
@@ -313,6 +315,9 @@ public class Window extends JFrame {
 			setConnectedLabel("Disconnected");
 		}
 		
+		if (!bot.isConnected()) {
+			setConnectedLabel("Disconnected");
+		}
 	
 	}
 	
