@@ -31,45 +31,5 @@ public class Utilities extends ListenerAdapter {
 	
 		}
 
-	
 	}
-	public void onDisconnect(){
-		if(Palebot.shouldBeConnected()&&!bot.isConnected()){
-			
-			
-			ActionListener task = new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					try {
-						Thread.sleep(5000);
-						bot.reconnect();
-						
-						if(bot.isConnected())
-						{
-							timer.stop();
-						}
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (NickAlreadyInUseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IrcException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				}
-			};
-
-			timer = new Timer(30000, task); // fire every 30 seconds
-			timer.setRepeats(true);
-			timer.start();
-			
-		}
-	} 
 }

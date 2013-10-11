@@ -24,6 +24,8 @@ public class FinestKO extends ListenerAdapter {
 		if (event.getMessage().equals("!banuber")) {
 			event.getBot().sendMessage(event.getChannel(), ".ban Uberpro");
 			event.getBot().sendMessage(event.getChannel(), ".unban Uberpro");
+			event.getBot().sendMessage(event.getChannel(), ".ban Freeuber");
+			event.getBot().sendMessage(event.getChannel(), ".unban Freeuber");
 		}
 		/**
 		 * command to ban tears
@@ -61,14 +63,6 @@ public class FinestKO extends ListenerAdapter {
 
 		}
 		
-		/**
-		 * command to post donation gifts
-		 */
-		if (event.getMessage().equals("!gifts") && event.getUser().getChannelsOpIn().contains(event.getChannel())) {
-			event.getBot().sendMessage(event.getChannel(),
-					"If you donate 10 or more dollars you may recieve one of the gifts shown here http://tinyurl.com/fkogiftlist");
-
-		}
 
 		/**
 		 * command to post FKO links

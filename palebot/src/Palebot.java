@@ -3,10 +3,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 import javax.swing.Timer;
 
 import org.pircbotx.PircBotX;
+import org.pircbotx.exception.IrcException;
+import org.pircbotx.exception.NickAlreadyInUseException;
 
 public class Palebot {
 
@@ -39,6 +42,16 @@ public class Palebot {
 					upFloodBarrier();
 					System.out.println("FloodBarrier: "+ getFloodBarrier());
 				}
+				if(Palebot.shouldBeConnected()&&!bot.isConnected()){
+					try {
+						bot.reconnect();
+					} catch (IOException | IrcException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			
+				
 
 			}
 		};
