@@ -14,7 +14,7 @@ import org.pircbotx.exception.NickAlreadyInUseException;
 public class Palebot {
 
 	private static boolean SHOULD_BE_CONNECTED;
-	private static int floodBarrier=5;
+	private static int floodBarrier=15;
 	
 
 	static PircBotX bot = new PircBotX();
@@ -37,7 +37,7 @@ public class Palebot {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(floodBarrier<5)
+				if(floodBarrier<15)
 				{
 					upFloodBarrier();
 					System.out.println("FloodBarrier: "+ getFloodBarrier());
@@ -50,13 +50,10 @@ public class Palebot {
 						e.printStackTrace();
 					}
 				}
-			
-				
-
 			}
 		};
 
-		Timer timer = new Timer(2000, task); // fire every two seconds
+		Timer timer = new Timer(5000, task); // fire every 5 seconds
 		timer.setRepeats(true);
 		timer.start();
 		

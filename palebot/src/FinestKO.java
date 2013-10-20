@@ -62,7 +62,6 @@ public class FinestKO extends ListenerAdapter {
 					"If you would like to donate to FinestKO you can do so here Tinyurl.com/CoopaTuition2");
 
 		}
-		
 
 		/**
 		 * command to post FKO links
@@ -78,6 +77,7 @@ public class FinestKO extends ListenerAdapter {
 		/**
 		 * FKO quotes
 		 */
+
 		if (event.getMessage().equals("!fkosays")) {
 			System.out.println("attemting to read a random quote");
 			if (Palebot.getFloodBarrier() > 0) {
@@ -92,10 +92,9 @@ public class FinestKO extends ListenerAdapter {
 					while (line != null) {
 						lines.add(line);
 						line = reader.readLine();
-					}
-					// Choose a random one from the list
+					} // Choose a random one from the list
 					Random r = new Random();
-					event.getBot().sendMessage(event.getChannel(), lines.get(r.nextInt(lines.size())));
+					event.getBot().sendMessage(event.getChannel(),"FKO says: " + lines.get(r.nextInt(lines.size())));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -107,9 +106,8 @@ public class FinestKO extends ListenerAdapter {
 				&& event.getMessage().startsWith("!fkosays add")) {
 
 			System.out.println("attempting to add a quote");
-			Date dNow = new Date();
-			SimpleDateFormat ft = new SimpleDateFormat("MM.dd.yyyy");
-			String line = event.getMessage().substring(11) + " " + ft.format(dNow);
+			
+			String line = event.getMessage().substring(11);
 
 			BufferedWriter output;
 			try {
@@ -123,8 +121,7 @@ public class FinestKO extends ListenerAdapter {
 			} finally {
 
 			}
-
-			
 		}
+
 	}
 }

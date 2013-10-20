@@ -19,23 +19,27 @@ public class BotBanner extends ListenerAdapter {
 			while (line != null) {
 				if (event.getMessage().contains(line)) {
 					System.out.println("banning");
-					banCount++;
-					if (Palebot.getFloodBarrier() > 0) {
+
+					if (Palebot.getFloodBarrier() > 1) {
+						banCount++;
 						Palebot.downFloodBarrier();
-						System.out.println("FloodBarrier: " + Palebot.getFloodBarrier());
-						event.getBot().sendMessage(event.getChannel(),
-								".me - " + banCount + " : " + event.getUser().getNick() + " -  0 ");
+
+						if (Palebot.getFloodBarrier() > 10) {
+							Palebot.downFloodBarrier();
+							System.out.println("FloodBarrier: " + Palebot.getFloodBarrier());
+							event.getBot().sendMessage(event.getChannel(),
+									".me - " + banCount + " : " + event.getUser().getNick() + " -  0 ");
+						}
+						try {
+							Thread.sleep(1000);
+
+							event.getBot().sendMessage(event.getChannel(), ".ban " + event.getUser().getNick());
+
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
-					try {
-						Thread.sleep(1000);
-
-						event.getBot().sendMessage(event.getChannel(), ".ban " + event.getUser().getNick());
-
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
 					break;
 				}
 				line = reader.readLine();
