@@ -22,106 +22,122 @@ public class FinestKO extends ListenerAdapter {
 		 * command to ban Uberpro
 		 */
 		if (event.getMessage().equals("!banuber")) {
-			event.getBot().sendMessage(event.getChannel(), ".ban Uberpro");
-			event.getBot().sendMessage(event.getChannel(), ".unban Uberpro");
-			event.getBot().sendMessage(event.getChannel(), ".ban Freeuber");
-			event.getBot().sendMessage(event.getChannel(), ".unban Freeuber");
+			if (Palebot.getMessageCount() < 18) {
+				Palebot.sendMessage();
+				Palebot.sendMessage();
+				event.getBot().sendMessage(event.getChannel(), ".timeout Uberpro 1");
+				event.getBot().sendMessage(event.getChannel(), ".timeout Freeuber 1");
+			}
 		}
 		/**
 		 * command to ban tears
 		 */
 		if (event.getMessage().equals("!bantears")) {
-			event.getBot().sendMessage(event.getChannel(), ".ban Xxtearsxx");
-			event.getBot().sendMessage(event.getChannel(), ".unban Xxtearsxx");
-		}
-		/**
-		 * command to savetweet
-		 */
-		if (event.getMessage().startsWith("!settweet")
-				&& event.getUser().getChannelsOpIn().contains(event.getChannel())) {
+			if (Palebot.getMessageCount() < 19) {
+				Palebot.sendMessage();
+				event.getBot().sendMessage(event.getChannel(), ".timeout Xxtearsxx 1");
+			}
+			/**
+			 * command to savetweet
+			 */
+			if (event.getMessage().startsWith("!settweet")
+					&& event.getUser().getChannelsOpIn().contains(event.getChannel())) {
+				if (Palebot.getMessageCount() < 19) {
+					tweet = event.getMessage().substring(10);
+					Palebot.sendMessage();
+					event.getBot().sendMessage(event.getChannel(), "Tweet Saved");
+				}
+			}
 
-			tweet = event.getMessage().substring(10);
+			/**
+			 * command to say tweet
+			 */
+			if (event.getMessage().equals("!tweet") && event.getUser().getChannelsOpIn().contains(event.getChannel())) {
 
-			event.getBot().sendMessage(event.getChannel(), "Tweet Saved");
-		}
+				if (Palebot.getMessageCount() < 19) {
+					Palebot.sendMessage();
+					event.getBot().sendMessage(event.getChannel(),
+							"If you would like to support FinestKO you can do by retweeting " + tweet);
+				}
+			}
 
-		/**
-		 * command to say tweet
-		 */
-		if (event.getMessage().equals("!tweet") && event.getUser().getChannelsOpIn().contains(event.getChannel())) {
+			/**
+			 * command to post donation link
+			 */
+			if (event.getMessage().equals("!donate") && event.getUser().getChannelsOpIn().contains(event.getChannel())) {
 
-			event.getBot().sendMessage(event.getChannel(),
-					"If you would like to support FinestKO you can do by retweeting " + tweet);
-		}
+				if (Palebot.getMessageCount() < 19) {
+					Palebot.sendMessage();
+					event.getBot().sendMessage(event.getChannel(),
+							"If you would like to donate to FinestKO you can do so here Tinyurl.com/CoopaTuition2");
+				}
 
-		/**
-		 * command to post donation link
-		 */
-		if (event.getMessage().equals("!donate") && event.getUser().getChannelsOpIn().contains(event.getChannel())) {
-			event.getBot().sendMessage(event.getChannel(),
-					"If you would like to donate to FinestKO you can do so here Tinyurl.com/CoopaTuition2");
+			}
 
-		}
+			/**
+			 * command to post FKO links
+			 */
+			if (event.getMessage().equals("!fko") && event.getUser().getChannelsOpIn().contains(event.getChannel())) {
+				if (Palebot.getMessageCount() < 19) {
 
-		/**
-		 * command to post FKO links
-		 */
-		if (event.getMessage().equals("!fko") && event.getUser().getChannelsOpIn().contains(event.getChannel())) {
-			event.getBot()
-					.sendMessage(
-							event.getChannel(),
-							"Please follow FinestKo at http://www.twitch.tv/finestko, https://twitter.com/FinestKO, http://www.youtube.com/FinestkoProductions, and https://www.facebook.com/FinestKO");
+					Palebot.sendMessage();
+					event.getBot()
+							.sendMessage(
+									event.getChannel(),
+									"Please follow FinestKo at http://www.twitch.tv/finestko, https://twitter.com/FinestKO, http://www.youtube.com/FinestkoProductions, and https://www.facebook.com/FinestKO");
+				}
+			}
 
-		}
+			/**
+			 * FKO quotes
+			 */
 
-		/**
-		 * FKO quotes
-		 */
-
-		if (event.getMessage().equals("!fkosays")) {
-			System.out.println("attemting to read a random quote");
-			if (Palebot.getFloodBarrier() > 0) {
-				Palebot.downFloodBarrier();
-				System.out.println("FloodBarrier: " + Palebot.getFloodBarrier());
-				String line = "";
-				BufferedReader reader;
-				try {
-					reader = new BufferedReader(new FileReader("quotes.txt"));
-					List<String> lines = new ArrayList<String>();
-					line = reader.readLine();
-					while (line != null) {
-						lines.add(line);
+			if (event.getMessage().equals("!fkosays")) {
+				System.out.println("attemting to read a random quote");
+				if (Palebot.getMessageCount() < 19) {
+					String line = "";
+					BufferedReader reader;
+					try {
+						reader = new BufferedReader(new FileReader("quotes.txt"));
+						List<String> lines = new ArrayList<String>();
 						line = reader.readLine();
-					} // Choose a random one from the list
-					Random r = new Random();
-					event.getBot().sendMessage(event.getChannel(),"FKO says: " + lines.get(r.nextInt(lines.size())));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						while (line != null) {
+							lines.add(line);
+							line = reader.readLine();
+						} // Choose a random one from the list
+						Random r = new Random();
+						Palebot.sendMessage();
+						event.getBot().sendMessage(event.getChannel(),
+								"FKO says: " + lines.get(r.nextInt(lines.size())));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+
+			if (event.getUser().getChannelsOpIn().contains(event.getChannel())
+					&& event.getMessage().startsWith("!fkosays add")) {
+				if (Palebot.getMessageCount() < 19) {
+					System.out.println("attempting to add a quote");
+
+					String line = event.getMessage().substring(11);
+
+					BufferedWriter output;
+					try {
+						output = new BufferedWriter(new FileWriter("quotes.txt", true));
+						output.append(line);
+						output.newLine();
+						output.close();
+						Palebot.sendMessage();
+						event.getBot().sendMessage(event.getChannel(), "Quote Saved");
+					} catch (IOException e) {
+						e.printStackTrace();
+					} finally {
+
+					}
 				}
 			}
 		}
-
-		if (event.getUser().getChannelsOpIn().contains(event.getChannel())
-				&& event.getMessage().startsWith("!fkosays add")) {
-
-			System.out.println("attempting to add a quote");
-			
-			String line = event.getMessage().substring(11);
-
-			BufferedWriter output;
-			try {
-				output = new BufferedWriter(new FileWriter("quotes.txt", true));
-				output.append(line);
-				output.newLine();
-				output.close();
-				event.getBot().sendMessage(event.getChannel(), "Quote Saved");
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-
-			}
-		}
-
 	}
 }

@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Timer;
 
 import javax.swing.BoundedRangeModel;
@@ -45,6 +46,7 @@ public class Window extends JFrame {
 
 	private static final int WIDTH = 1024;
 	private static final int HEIGHT = 650;
+	private static ArrayList<String> channels;
 	
 	JTextArea display;
 	Timer timer = new Timer();
@@ -328,6 +330,7 @@ public class Window extends JFrame {
 			bot.setName(usernameTF.getText());
 			bot.connect(serverTF.getText(), port, passwordTF.getText());
 			bot.joinChannel(channelTF.getText());
+			channels.add(channelTF.getText());
 			setConnectedLabel("Connected");
 		} catch (IOException | IrcException e1) {
 			// TODO Auto-generated catch block
@@ -367,6 +370,7 @@ public class Window extends JFrame {
 			}
 			if (bot.isConnected()&&messageTF.getText()!="") {
 				bot.sendMessage(channelTF.getText(), messageTF.getText());
+				Palebot.sendMessage();
 				messageTF.setText("");
 			}
 

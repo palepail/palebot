@@ -18,21 +18,16 @@ public class BotBanner extends ListenerAdapter {
 			line = reader.readLine();
 			while (line != null) {
 				if (event.getMessage().contains(line)) {
-					System.out.println("banning");
-
-					if (Palebot.getFloodBarrier() > 1) {
+					System.out.println("bot confirmed");
+					if (Palebot.getMessageCount() < 17) {
 						banCount++;
-						Palebot.downFloodBarrier();
+						Palebot.sendMessage();
+						event.getBot().sendMessage(event.getChannel(),
+								".me - " + banCount + " : " + event.getUser().getNick() + " -  0 ");
 
-						if (Palebot.getFloodBarrier() > 10) {
-							Palebot.downFloodBarrier();
-							System.out.println("FloodBarrier: " + Palebot.getFloodBarrier());
-							event.getBot().sendMessage(event.getChannel(),
-									".me - " + banCount + " : " + event.getUser().getNick() + " -  0 ");
-						}
 						try {
 							Thread.sleep(1000);
-
+							Palebot.sendMessage();
 							event.getBot().sendMessage(event.getChannel(), ".ban " + event.getUser().getNick());
 
 						} catch (InterruptedException e) {
@@ -40,6 +35,7 @@ public class BotBanner extends ListenerAdapter {
 							e.printStackTrace();
 						}
 					}
+
 					break;
 				}
 				line = reader.readLine();
@@ -84,7 +80,7 @@ public class BotBanner extends ListenerAdapter {
 
 	public void onMessage(MessageEvent event) {
 		/**
-		 * check if message startes with common bot starter
+		 * check if message starts with common bot starter
 		 */
 
 		String line = "";
@@ -94,7 +90,7 @@ public class BotBanner extends ListenerAdapter {
 			line = reader.readLine();
 			while (line != null) {
 				if (event.getMessage().startsWith(line)) {
-					System.out.println("banning");
+					System.out.println("questionable start");
 					secondLine(event);
 					break;
 				}
@@ -111,25 +107,34 @@ public class BotBanner extends ListenerAdapter {
 		 */
 		if (event.getMessage().startsWith("!botsbanned")
 				&& event.getUser().getChannelsOpIn().contains(event.getChannel())) {
-			event.getBot().sendMessage(event.getChannel(), "I have smote " + banCount + " bots today.");
+			if (Palebot.getMessageCount() < 19) {
+				Palebot.sendMessage();
+				event.getBot().sendMessage(event.getChannel(), "I have smote " + banCount + " bots today.");
+			}
 		}
 		/**
 		 * commands to add phrases to the ban list
 		 */
 		if (event.getMessage().startsWith("!botbanner add end")
 				&& event.getUser().getChannelsOpIn().contains(event.getChannel())) {
+			if (Palebot.getMessageCount() < 19) {
+				Palebot.sendMessage();
+				line = event.getMessage().substring(19);
 
-			line = event.getMessage().substring(19);
-			event.getBot().sendMessage(event.getChannel(), "Phrase Added");
-			addEndingPhrase(line);
+				event.getBot().sendMessage(event.getChannel(), "Phrase Added");
+				addEndingPhrase(line);
+			}
 		}
 
 		if (event.getMessage().startsWith("!botbanner add start")
 				&& event.getUser().getChannelsOpIn().contains(event.getChannel())) {
+			if (Palebot.getMessageCount() < 19) {
+				Palebot.sendMessage();
 
-			line = event.getMessage().substring(21);
-			addStartingPhrase(line);
-			event.getBot().sendMessage(event.getChannel(), "Phrase Added");
+				line = event.getMessage().substring(21);
+				addStartingPhrase(line);
+				event.getBot().sendMessage(event.getChannel(), "Phrase Added");
+			}
 		}
 	}
 }

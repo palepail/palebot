@@ -3,25 +3,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-
+import java.util.ArrayList;
 import javax.swing.Timer;
-
 import org.pircbotx.PircBotX;
-import org.pircbotx.exception.IrcException;
-import org.pircbotx.exception.NickAlreadyInUseException;
+
 
 public class Palebot {
 
 	private static boolean SHOULD_BE_CONNECTED;
-	private static int floodBarrier=15;
+	private static ArrayList<Long> messageTimes;
 	
 
 	static PircBotX bot = new PircBotX();
 
 	public static void main(String[] args) throws Exception {
 
-		Window window = new Window();
+		final Window window = new Window();
 		window.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -37,28 +34,36 @@ public class Palebot {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(floodBarrier<15)
-				{
-					upFloodBarrier();
-					System.out.println("FloodBarrier: "+ getFloodBarrier());
-				}
 				if(Palebot.shouldBeConnected()&&!bot.isConnected()){
-					try {
-						bot.reconnect();
-					} catch (IOException | IrcException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					
+						window.connect();
+						
+				}
+				
+				if(messageTimes.size()>0 && System.currentTimeMillis()-messageTimes.get(0)>30000)
+				{
+					messageTimes.remove(0);
+					System.out.println("Message Count: " + getMessageCount());
 				}
 			}
 		};
 
-		Timer timer = new Timer(5000, task); // fire every 5 seconds
+		Timer timer = new Timer(1000, task); // fire every 1 seconds
 		timer.setRepeats(true);
 		timer.start();
 		
 		window.revalidate();
 
+	}
+	
+	public static int getMessageCount()
+	{
+		return messageTimes.size();
+	}
+	
+	public static void addMessageTime(long time)
+	{
+		messageTimes.add(time);
 	}
 
 	/**
@@ -80,22 +85,11 @@ public class Palebot {
 		// TODO Auto-generated method stub
 		return bot;
 	}
-	/**
-	 * @return the floodBarrier
-	 */
-	public static int getFloodBarrier() {
-		return floodBarrier;
-	}
-
-	/**
-	 * @param floodBarrier the floodBarrier to set
-	 */
-	public static void upFloodBarrier() {
-		Palebot.floodBarrier++;
-	}
 	
-	public static void downFloodBarrier() {
-		Palebot.floodBarrier--;
+	public static void sendMessage()
+	{
+		addMessageTime(System.currentTimeMillis());
+		System.out.println("Message sent at: " + System.currentTimeMillis());
 	}
 
 }
