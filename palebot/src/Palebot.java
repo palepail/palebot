@@ -11,7 +11,7 @@ import org.pircbotx.PircBotX;
 public class Palebot {
 
 	private static boolean SHOULD_BE_CONNECTED;
-	private static ArrayList<Long> messageTimes;
+	private static ArrayList<Long> messageTimes = new ArrayList<Long>();
 	
 
 	static PircBotX bot = new PircBotX();
