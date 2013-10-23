@@ -36,7 +36,7 @@ public class Utilities extends ListenerAdapter {
 		}
 
 		if (event.getUser().getChannelsOpIn().contains(event.getChannel())
-				&& event.getMessage().startsWith("FKO says:")) {
+				&& event.getMessage().startsWith("FKO says:") && event.getUser().getNick().equals("Rise_bot")) {
 
 			// Check if quote has been added
 			BufferedReader reader;

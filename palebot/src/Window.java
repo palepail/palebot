@@ -325,7 +325,6 @@ public class Window extends JFrame {
 	
 	public void connect(){
 	
-
 		try {
 			bot.setName(usernameTF.getText());
 			bot.connect(serverTF.getText(), port, passwordTF.getText());
