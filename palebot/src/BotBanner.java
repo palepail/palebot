@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -67,6 +69,8 @@ public class BotBanner extends ListenerAdapter {
 		BufferedWriter output;
 		try {
 			output = new BufferedWriter(new FileWriter("botstartingphrases.txt", true));
+			
+			
 			output.append(string);
 			output.newLine();
 			output.close();
@@ -83,6 +87,20 @@ public class BotBanner extends ListenerAdapter {
 		 * check if message starts with common bot starter
 		 */
 
+		File file = new File("botstartingphrases.txt");
+		File file2 = new File("botendingphrases.txt");
+
+		// if file doesnt exists, then create it
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+				file2.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		String line = "";
 		BufferedReader reader;
 		try {

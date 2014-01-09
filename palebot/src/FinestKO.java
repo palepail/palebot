@@ -18,37 +18,7 @@ public class FinestKO extends ListenerAdapter {
 	String tweet = "";
 
 	public void onMessage(MessageEvent event) {
-		/**
-		 * command to ban Uberpro
-		 */
-		if (event.getMessage().equals("!banuber")) {
-			if (Palebot.getMessageCount() < 18) {
-				Palebot.sendMessage();
-				Palebot.sendMessage();
-				event.getBot().sendMessage(event.getChannel(), ".timeout Uberpro 1");
-				event.getBot().sendMessage(event.getChannel(), ".timeout Freeuber 1");
-			}
-		}
-		/**
-		 * command to ban tears
-		 */
-		if (event.getMessage().equals("!bantears")) {
-			if (Palebot.getMessageCount() < 19) {
-				Palebot.sendMessage();
-				event.getBot().sendMessage(event.getChannel(), ".timeout Xxtearsxx 1");
-			}
-			/**
-			 * command to savetweet
-			 */
-			if (event.getMessage().startsWith("!settweet")
-					&& event.getUser().getChannelsOpIn().contains(event.getChannel())) {
-				if (Palebot.getMessageCount() < 19) {
-					tweet = event.getMessage().substring(10);
-					Palebot.sendMessage();
-					event.getBot().sendMessage(event.getChannel(), "Tweet Saved");
-				}
-			}
-
+		
 			/**
 			 * command to say tweet
 			 */
@@ -140,4 +110,3 @@ public class FinestKO extends ListenerAdapter {
 			}
 		}
 	}
-}

@@ -47,25 +47,26 @@ public class Window extends JFrame {
 	private static final int WIDTH = 1024;
 	private static final int HEIGHT = 650;
 	private static ArrayList<String> channels;
-	
+
 	JTextArea display;
 	Timer timer = new Timer();
-	 JScrollPane scroll;
-	
+	JScrollPane scroll;
+
 	static int port = 6667;
 
-	private JLabel usernameLabel, passwordLabel, serverLabel, channelLabel, bannerLabel, finestLabel, utilitiesLabel;
+	private JLabel usernameLabel, passwordLabel, serverLabel, channelLabel, bannerLabel, finestLabel, utilitiesLabel,
+			funLabel;
 	private JTextField usernameTF, passwordTF, serverTF, channelTF, messageTF;
-	private JCheckBox bannerBox, finestBox, utilitiesBox;
-    private JButton cButton, dButton, sendButton;
+	private JCheckBox bannerBox, finestBox, utilitiesBox, funBox;
+	private JButton cButton, dButton, sendButton;
 	private JLabel connectedLabel = new JLabel("Disconnected", SwingConstants.CENTER);
 
 	FinestKO fko = new FinestKO();
 	BotBanner banner = new BotBanner();
 	Utilities utilities = new Utilities();
+	FunThings fun = new FunThings();
 	BoxListener boxListener = new BoxListener();
 	PircBotX bot;
-	
 
 	public Window() {
 
@@ -76,11 +77,12 @@ public class Window extends JFrame {
 		bannerLabel = new JLabel("Bot-Banner: ", SwingConstants.RIGHT);
 		finestLabel = new JLabel("FinestKO: ", SwingConstants.RIGHT);
 		utilitiesLabel = new JLabel("Utilities: ", SwingConstants.RIGHT);
-		
+		funLabel = new JLabel("FunStuff: ", SwingConstants.RIGHT);
+
 		usernameTF = new JTextField("palebot", 15);
 		passwordTF = new JPasswordField(15);
 		messageTF = new JTextField("", 15);
-		
+
 		serverTF = new JTextField("irc.twitch.tv", 15);
 		channelTF = new JTextField("#finestko", 15);
 
@@ -94,237 +96,236 @@ public class Window extends JFrame {
 		bannerBox = new JCheckBox();
 		finestBox = new JCheckBox();
 		utilitiesBox = new JCheckBox();
+		funBox = new JCheckBox();
 		bannerBox.addItemListener(boxListener);
 		finestBox.addItemListener(boxListener);
 		utilitiesBox.addItemListener(boxListener);
+		funBox.addItemListener(boxListener);
 
 		bot = Palebot.getBot();
-		
+
 		setTitle("PaleBot");
 		bot.setVerbose(true);
 		setSize(WIDTH, HEIGHT);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		 JPanel middlePanel = new JPanel ();
-		 middlePanel.setBorder ( new TitledBorder ( new EtchedBorder (), "Display Area" ) );
-		 middlePanel.setLayout(new BorderLayout());
-		
-		display = new JTextArea (25,80);
-	    display.setEditable ( false ); // set textArea non-editable
-	    
-	    display.setLineWrap(true);
-	    DefaultCaret caret = (DefaultCaret)display.getCaret();
-	    caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
-	    
-	    
-	    Document document = display.getDocument();
-        document.addDocumentListener(new ScrollingDocumentListener());
-	    
-	    redirectSystemStreams();
-	    
-	    scroll = new JScrollPane ( display );
-	    scroll.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS );
 
-	    //Add Textarea in to middle panel
-	    middlePanel.add ( scroll , BorderLayout.CENTER);
+		JPanel middlePanel = new JPanel();
+		middlePanel.setBorder(new TitledBorder(new EtchedBorder(), "Display Area"));
+		middlePanel.setLayout(new BorderLayout());
+
+		display = new JTextArea(25, 80);
+		display.setEditable(false); // set textArea non-editable
+
+		display.setLineWrap(true);
+		DefaultCaret caret = (DefaultCaret) display.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
+
+		Document document = display.getDocument();
+		document.addDocumentListener(new ScrollingDocumentListener());
+
+		redirectSystemStreams();
+
+		scroll = new JScrollPane(display);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+		// Add Textarea in to middle panel
+		middlePanel.add(scroll, BorderLayout.CENTER);
 
 		Container pane = getContentPane();
-		
-		//Create textedit
-		
+
+		// Create textedit
 
 		// Set the layout.
 
 		pane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0.5;
-		
-		pane.add(usernameLabel,c);
-		
+
+		pane.add(usernameLabel, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 0;
 		c.weightx = 0.5;
-		pane.add(usernameTF,c);
+		pane.add(usernameTF, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
 		c.gridy = 0;
 		c.weightx = 0.5;
-		pane.add(bannerLabel,c);
-		
+		pane.add(bannerLabel, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 0;
 		c.weightx = 0.5;
-		pane.add(bannerBox,c);
+		pane.add(bannerBox, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weightx = 0.5;
-		pane.add(passwordLabel,c);
-		
+		pane.add(passwordLabel, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 1;
 		c.weightx = 0.5;
-		pane.add(passwordTF,c);
+		pane.add(passwordTF, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
 		c.gridy = 1;
 		c.weightx = 0.5;
-		pane.add(finestLabel,c);
-		
+		pane.add(finestLabel, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 1;
 		c.weightx = 0.5;
-		pane.add(finestBox,c);
+		pane.add(finestBox, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
 		c.weightx = 0.5;
-		pane.add(serverLabel,c);
-		
+		pane.add(serverLabel, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 2;
 		c.weightx = 0.5;
-		pane.add(serverTF,c);
+		pane.add(serverTF, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
 		c.gridy = 2;
 		c.weightx = 0.5;
-		pane.add(utilitiesLabel,c);
-		
+		pane.add(utilitiesLabel, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 2;
 		c.weightx = 0.5;
-		pane.add(utilitiesBox,c);
+		pane.add(utilitiesBox, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 3;
 		c.weightx = 0.5;
-		pane.add(channelLabel,c);
-		
+		pane.add(channelLabel, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 3;
 		c.weightx = 0.5;
-		pane.add(channelTF,c);
-		
+		pane.add(channelTF, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
 		c.gridy = 3;
 		c.weightx = 0.5;
-		pane.add(new JLabel(""),c);
-		
+		pane.add(funLabel, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 3;
 		c.weightx = 0.5;
-		pane.add(new JLabel(""),c);
-		
+		pane.add(funBox, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 4;
 		c.weightx = 0.5;
-		pane.add(new JLabel(""),c);
+		pane.add(new JLabel(""), c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 4;
 		c.weightx = 0.5;
-		pane.add(cButton,c);
-		
+		pane.add(cButton, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
 		c.gridy = 4;
 		c.weightx = 0.5;
-		pane.add(connectedLabel,c);
-		
+		pane.add(connectedLabel, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 4;
 		c.weightx = 0.5;
-		pane.add(dButton,c);
-		
+		pane.add(dButton, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 5;
 		c.weightx = 0.5;
 		c.ipady = 400;
 		c.gridwidth = 4;
-		pane.add ( middlePanel,c);
-		
+		pane.add(middlePanel, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 6;
 		c.ipady = 0;
 		c.weightx = 0.5;
 		c.gridwidth = 3;
-		pane.add (messageTF,c);
-		
+		pane.add(messageTF, c);
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 6;
 		c.weightx = 0.5;
 		c.gridwidth = 1;
-		pane.add (sendButton,c);
-		
-		
+		pane.add(sendButton, c);
+
 	}
-	
+
 	private void updateTextArea(final String text) {
-	    SwingUtilities.invokeLater(new Runnable() {
-	      public void run() {
-	    	 
-	        display.append(text);
-	       
-	      }
-	    });
-	  }
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
 
-	  private void redirectSystemStreams() {
-	    OutputStream out = new OutputStream() {
-	      @Override
-	      public void write(int b) throws IOException {
-	        updateTextArea(String.valueOf((char) b));
-	      }
+				display.append(text);
 
-	      @Override
-	      public void write(byte[] b, int off, int len) throws IOException {
-	        updateTextArea(new String(b, off, len));
-	      }
-
-	      @Override
-	      public void write(byte[] b) throws IOException {
-	        write(b, 0, b.length);
-	      }
-	    };
-
-	    System.setOut(new PrintStream(out, true));
-	    System.setErr(new PrintStream(out, true));
-	  }
-	
-	public void setConnectedLabel(String status){
-		connectedLabel.setText(status);
-		
+			}
+		});
 	}
-	
-	public void connect(){
-	
+
+	private void redirectSystemStreams() {
+		OutputStream out = new OutputStream() {
+			@Override
+			public void write(int b) throws IOException {
+				updateTextArea(String.valueOf((char) b));
+			}
+
+			@Override
+			public void write(byte[] b, int off, int len) throws IOException {
+				updateTextArea(new String(b, off, len));
+			}
+
+			@Override
+			public void write(byte[] b) throws IOException {
+				write(b, 0, b.length);
+			}
+		};
+
+		System.setOut(new PrintStream(out, true));
+		System.setErr(new PrintStream(out, true));
+	}
+
+	public void setConnectedLabel(String status) {
+		connectedLabel.setText(status);
+
+	}
+
+	public void connect() {
+
 		try {
 			bot.setName(usernameTF.getText());
 			bot.connect(serverTF.getText(), port, passwordTF.getText());
@@ -334,17 +335,15 @@ public class Window extends JFrame {
 		} catch (IOException | IrcException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-	
+
 			setConnectedLabel("Disconnected");
 		}
-		
+
 		if (!bot.isConnected()) {
 			setConnectedLabel("Disconnected");
 		}
-	
+
 	}
-	
-	
 
 	public class ConnectButtonHandler implements ActionListener {
 		@Override
@@ -360,14 +359,14 @@ public class Window extends JFrame {
 		}
 
 	}
-	
+
 	public class SendButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (bot == null) {
 				bot = Palebot.getBot();
 			}
-			if (bot.isConnected()&&messageTF.getText()!="") {
+			if (bot.isConnected() && messageTF.getText() != "") {
 				bot.sendMessage(channelTF.getText(), messageTF.getText());
 				Palebot.sendMessage();
 				messageTF.setText("");
@@ -376,61 +375,56 @@ public class Window extends JFrame {
 		}
 
 	}
-	
-	 // ScrollingDocumentListener takes care of re-scrolling when appropriate
-    class ScrollingDocumentListener implements DocumentListener {
-        public void changedUpdate(DocumentEvent e) {
-            maybeScrollToBottom();
-        }
 
-        public void insertUpdate(DocumentEvent e) {
-            maybeScrollToBottom();
-        }
+	// ScrollingDocumentListener takes care of re-scrolling when appropriate
+	class ScrollingDocumentListener implements DocumentListener {
+		public void changedUpdate(DocumentEvent e) {
+			maybeScrollToBottom();
+		}
 
-        public void removeUpdate(DocumentEvent e) {
-            maybeScrollToBottom();
-        }
+		public void insertUpdate(DocumentEvent e) {
+			maybeScrollToBottom();
+		}
 
-        private void maybeScrollToBottom() {
-            JScrollBar scrollBar = scroll.getVerticalScrollBar();
-            boolean scrollBarAtBottom = isScrollBarFullyExtended(scrollBar);
-            boolean scrollLock = Toolkit.getDefaultToolkit()
-                    .getLockingKeyState(KeyEvent.VK_SCROLL_LOCK);
-            if (scrollBarAtBottom && !scrollLock) {
-                // Push the call to "scrollToBottom" back TWO PLACES on the
-                // AWT-EDT queue so that it runs *after* Swing has had an
-                // opportunity to "react" to the appending of new text:
-                // this ensures that we "scrollToBottom" only after a new
-                // bottom has been recalculated during the natural
-                // revalidation of the GUI that occurs after having
-                // appending new text to the JTextArea.
-                EventQueue.invokeLater(new Runnable() {
-                    public void run() {
-                        EventQueue.invokeLater(new Runnable() {
-                            public void run() {
-                                scrollToBottom(display);
-                            }
-                        });
-                    }
-                });
-            }
-        }
-    }
+		public void removeUpdate(DocumentEvent e) {
+			maybeScrollToBottom();
+		}
 
-   
+		private void maybeScrollToBottom() {
+			JScrollBar scrollBar = scroll.getVerticalScrollBar();
+			boolean scrollBarAtBottom = isScrollBarFullyExtended(scrollBar);
+			boolean scrollLock = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_SCROLL_LOCK);
+			if (scrollBarAtBottom && !scrollLock) {
+				// Push the call to "scrollToBottom" back TWO PLACES on the
+				// AWT-EDT queue so that it runs *after* Swing has had an
+				// opportunity to "react" to the appending of new text:
+				// this ensures that we "scrollToBottom" only after a new
+				// bottom has been recalculated during the natural
+				// revalidation of the GUI that occurs after having
+				// appending new text to the JTextArea.
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						EventQueue.invokeLater(new Runnable() {
+							public void run() {
+								scrollToBottom(display);
+							}
+						});
+					}
+				});
+			}
+		}
+	}
 
-    public static boolean isScrollBarFullyExtended(JScrollBar vScrollBar) {
-        BoundedRangeModel model = vScrollBar.getModel();
-        return (model.getExtent() + model.getValue()) == model.getMaximum();
-    }
+	public static boolean isScrollBarFullyExtended(JScrollBar vScrollBar) {
+		BoundedRangeModel model = vScrollBar.getModel();
+		return (model.getExtent() + model.getValue()) == model.getMaximum();
+	}
 
-    public static void scrollToBottom(JComponent component) {
-        Rectangle visibleRect = component.getVisibleRect();
-        visibleRect.y = component.getHeight() - visibleRect.height;
-        component.scrollRectToVisible(visibleRect);
-    }
-
-
+	public static void scrollToBottom(JComponent component) {
+		Rectangle visibleRect = component.getVisibleRect();
+		visibleRect.y = component.getHeight() - visibleRect.height;
+		component.scrollRectToVisible(visibleRect);
+	}
 
 	public class DisconnectButtonHandler implements ActionListener {
 
@@ -445,8 +439,6 @@ public class Window extends JFrame {
 		}
 
 	}
-	
-	
 
 	public class BoxListener implements ItemListener {
 
@@ -469,7 +461,7 @@ public class Window extends JFrame {
 				if (e.getStateChange() == 2) {
 					bot.getListenerManager().removeListener(banner);
 				}
-			}else if (e.getSource() == utilitiesBox) {
+			} else if (e.getSource() == utilitiesBox) {
 
 				if (e.getStateChange() == 1) {
 					bot.getListenerManager().addListener(utilities);
@@ -477,10 +469,18 @@ public class Window extends JFrame {
 				if (e.getStateChange() == 2) {
 					bot.getListenerManager().removeListener(utilities);
 				}
+			} else if (e.getSource() == funBox) {
+
+				if (e.getStateChange() == 1) {
+					bot.getListenerManager().addListener(fun);
+				}
+				if (e.getStateChange() == 2) {
+					bot.getListenerManager().removeListener(fun);
+				}
+
 			}
 
 		}
 
 	}
-
 }
