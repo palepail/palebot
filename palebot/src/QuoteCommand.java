@@ -203,7 +203,6 @@ public class QuoteCommand extends ListenerAdapter {
 						if (lineToRemove <= count("quotes.txt") && lineToRemove > 0) {
 							File inputFile = new File("quotes.txt");
 							File tempFile = new File("temp.txt");
-							
 
 							// if file doesnt exists, then create it
 							if (!tempFile.exists()) {
@@ -218,24 +217,34 @@ public class QuoteCommand extends ListenerAdapter {
 							while ((currentLine = reader.readLine()) != null) {
 								// trim newline when comparing with lineToRemove
 								currentLineNum++;
-								if (lineToRemove == currentLineNum) continue;
-									// if current line not start with
-									// lineToRemove then write to file
-									writer.write(currentLine);
-									writer.newLine();
+								if (lineToRemove == currentLineNum)
+									continue;
+								// if current line not start with
+								// lineToRemove then write to file
+								writer.write(currentLine);
+								writer.newLine();
 							}
-							
+
 							reader.close();
 							writer.close();
-							System.out.println("Quotes delete success: " + inputFile.delete());
-							System.out.println("Temp rename success: " + tempFile.renameTo(inputFile));
+							boolean deleteSuccess = inputFile.delete();
+							boolean renameSuccess = tempFile.renameTo(inputFile);
 
-							if (Palebot.getMessageCount() < 19) {
-								event.getBot().sendMessage(event.getChannel(), "Quote Deleted");
-								Palebot.sendMessage();
+							System.out.println("Quotes delete success: " + deleteSuccess);
+							System.out.println("Temp rename success: " + renameSuccess);
+
+							if (deleteSuccess && renameSuccess) {
+								if (Palebot.getMessageCount() < 19) {
+									event.getBot().sendMessage(event.getChannel(), "Quote Deleted");
+									Palebot.sendMessage();
+								}
+							} else {
+								if (Palebot.getMessageCount() < 19) {
+									event.getBot().sendMessage(event.getChannel(), "Delete Failed");
+									Palebot.sendMessage();
+								}
 							}
-							
-							
+
 						}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block

@@ -67,6 +67,7 @@ public class Window extends JFrame {
 	FunThings fun = new FunThings();
 	BoxListener boxListener = new BoxListener();
 	PircBotX bot;
+	QuoteCommand quotes = new QuoteCommand();
 
 	public Window() {
 
@@ -437,11 +438,11 @@ public class Window extends JFrame {
 	}
 
 	public void addQuotes() {
-		bot.getListenerManager().addListener(new QuoteCommand());
+		bot.getListenerManager().addListener(quotes);
 	}
 
 	public void removeQuotes() {
-		bot.getListenerManager().addListener(new QuoteCommand());
+		bot.getListenerManager().removeListener(quotes);
 	}
 
 	public class BoxListener implements ItemListener {
