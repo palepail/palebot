@@ -30,13 +30,34 @@ public class Utilities extends ListenerAdapter {
 		 * palebot info
 		 */
 		if (event.getMessage().equals("!palebot") && event.getUser().getChannelsOpIn().contains(event.getChannel())) {
-			event.getBot().sendMessage(event.getChannel(),
-					"Hi, I'm palebot! I'm run and operated by palepail so if I mess up he's to blame.");
+			if (Palebot.getMessageCount() < 19) {
+				event.getBot().sendMessage(event.getChannel(),
+
+				"Hi, I'm palebot! I'm run and operated by palepail so if I mess up he's to blame.");
+				Palebot.sendMessage();
+			}
+		}
+
+		if (event.getMessage().equalsIgnoreCase("!addQuotes")
+				&& event.getUser().getChannelsOpIn().contains(event.getChannel())) {
+			Palebot.getWindow().addQuotes();
+			if (Palebot.getMessageCount() < 19) {
+				event.getBot().sendMessage(event.getChannel(), "Quotes Enabled");
+				Palebot.sendMessage();
+			}
+
+		}
+		if (event.getMessage().equalsIgnoreCase("!removeQuotes")
+				&& event.getUser().getChannelsOpIn().contains(event.getChannel())) {
+			Palebot.getWindow().removeQuotes();
+			if (Palebot.getMessageCount() < 19) {
+				event.getBot().sendMessage(event.getChannel(), "Quotes Diabled");
+				Palebot.sendMessage();
+			}
 
 		}
 
-		if (event.getUser().getChannelsOpIn().contains(event.getChannel())
-				&& event.getMessage().startsWith("FKO says:") && event.getUser().getNick().equals("Rise_bot")) {
+		if (event.getMessage().startsWith("FKO says:") && event.getUser().getNick().equalsIgnoreCase("Rise_bot")) {
 
 			// Check if quote has been added
 			BufferedReader reader;
@@ -48,7 +69,7 @@ public class Utilities extends ListenerAdapter {
 				line = reader.readLine();
 				while (line != null) {
 					if (line.equals(quote)) {
-						System.out.println("Found Quote");
+						System.out.println("Already Have Quote");
 						found = true;
 						break;
 					}
@@ -56,6 +77,7 @@ public class Utilities extends ListenerAdapter {
 				}
 				if (!found) {
 					addQuote(quote, event);
+					System.out.println("Adding Quote");
 				}
 
 			} catch (IOException e) {
@@ -68,7 +90,6 @@ public class Utilities extends ListenerAdapter {
 	}
 
 	private void addQuote(String string, MessageEvent event) {
-		System.out.println("attempting to add a quote");
 		String line = string;
 
 		BufferedWriter output;
@@ -85,4 +106,5 @@ public class Utilities extends ListenerAdapter {
 		}
 
 	}
+
 }

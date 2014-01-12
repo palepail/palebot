@@ -332,14 +332,10 @@ public class Window extends JFrame {
 			bot.joinChannel(channelTF.getText());
 			channels.add(channelTF.getText());
 			setConnectedLabel("Connected");
+			Palebot.setShouldBeConnected(true);
 		} catch (IOException | IrcException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-
-			setConnectedLabel("Disconnected");
-		}
-
-		if (!bot.isConnected()) {
 			setConnectedLabel("Disconnected");
 		}
 
@@ -440,6 +436,14 @@ public class Window extends JFrame {
 
 	}
 
+	public void addQuotes() {
+		bot.getListenerManager().addListener(new QuoteCommand());
+	}
+
+	public void removeQuotes() {
+		bot.getListenerManager().addListener(new QuoteCommand());
+	}
+
 	public class BoxListener implements ItemListener {
 
 		@Override
@@ -462,7 +466,6 @@ public class Window extends JFrame {
 					bot.getListenerManager().removeListener(banner);
 				}
 			} else if (e.getSource() == utilitiesBox) {
-
 				if (e.getStateChange() == 1) {
 					bot.getListenerManager().addListener(utilities);
 				}

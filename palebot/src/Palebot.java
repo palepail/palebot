@@ -15,10 +15,10 @@ public class Palebot {
 	
 
 	static PircBotX bot = new PircBotX();
-
+	final static Window window = new Window();
 	public static void main(String[] args) throws Exception {
 
-		final Window window = new Window();
+		
 		window.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -54,6 +54,11 @@ public class Palebot {
 		
 		window.revalidate();
 
+	}
+	
+	public static Window getWindow()
+	{
+		return window;
 	}
 	
 	public static int getMessageCount()
