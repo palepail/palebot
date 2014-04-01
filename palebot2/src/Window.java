@@ -52,7 +52,7 @@ public class Window extends JFrame {
 	Timer timer = new Timer();
 	JScrollPane scroll;
 
-	static int port = 6667;
+	
 
 	private JLabel usernameLabel, passwordLabel, serverLabel, channelLabel, bannerLabel, finestLabel, utilitiesLabel,
 			funLabel;
@@ -61,13 +61,18 @@ public class Window extends JFrame {
 	private JButton cButton, dButton, sendButton;
 	private JLabel connectedLabel = new JLabel("Disconnected", SwingConstants.CENTER);
 
-	FinestKO fko = new FinestKO();
-	BotBanner banner = new BotBanner();
-	Utilities utilities = new Utilities();
-	FunThings fun = new FunThings();
-	BoxListener boxListener = new BoxListener();
-	PircBotX bot;
-	QuoteCommand quotes = new QuoteCommand();
+	Palebot bot;
+	
+	public String getUserName(){
+		return usernameTF.getText();
+	}
+	public String getServer(){
+		return serverTF.getText();
+	}
+	public String getChannel(){
+		return channelTF.getText();
+	}
+
 
 	public Window() {
 
@@ -75,10 +80,6 @@ public class Window extends JFrame {
 		passwordLabel = new JLabel("Password: ", SwingConstants.RIGHT);
 		serverLabel = new JLabel("Server: ", SwingConstants.RIGHT);
 		channelLabel = new JLabel("Channel: ", SwingConstants.RIGHT);
-		bannerLabel = new JLabel("Bot-Banner: ", SwingConstants.RIGHT);
-		finestLabel = new JLabel("FinestKO: ", SwingConstants.RIGHT);
-		utilitiesLabel = new JLabel("Utilities: ", SwingConstants.RIGHT);
-		funLabel = new JLabel("FunStuff: ", SwingConstants.RIGHT);
 
 		usernameTF = new JTextField("palebot", 15);
 		passwordTF = new JPasswordField(15);
@@ -96,17 +97,10 @@ public class Window extends JFrame {
 
 		bannerBox = new JCheckBox();
 		finestBox = new JCheckBox();
-		utilitiesBox = new JCheckBox();
-		funBox = new JCheckBox();
-		bannerBox.addItemListener(boxListener);
-		finestBox.addItemListener(boxListener);
-		utilitiesBox.addItemListener(boxListener);
-		funBox.addItemListener(boxListener);
 
-		bot = Palebot.getBot();
+
 
 		setTitle("PaleBot");
-		bot.setVerbose(true);
 		setSize(WIDTH, HEIGHT);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -159,13 +153,13 @@ public class Window extends JFrame {
 		c.gridx = 2;
 		c.gridy = 0;
 		c.weightx = 0.5;
-		pane.add(bannerLabel, c);
+		pane.add(new JLabel(""), c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 0;
 		c.weightx = 0.5;
-		pane.add(bannerBox, c);
+		pane.add(new JLabel(""), c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -183,13 +177,13 @@ public class Window extends JFrame {
 		c.gridx = 2;
 		c.gridy = 1;
 		c.weightx = 0.5;
-		pane.add(finestLabel, c);
+		pane.add(new JLabel(""), c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 1;
 		c.weightx = 0.5;
-		pane.add(finestBox, c);
+		pane.add(new JLabel(""), c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -207,13 +201,13 @@ public class Window extends JFrame {
 		c.gridx = 2;
 		c.gridy = 2;
 		c.weightx = 0.5;
-		pane.add(utilitiesLabel, c);
+		pane.add(new JLabel(""), c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 2;
 		c.weightx = 0.5;
-		pane.add(utilitiesBox, c);
+		pane.add(new JLabel(""), c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -231,13 +225,13 @@ public class Window extends JFrame {
 		c.gridx = 2;
 		c.gridy = 3;
 		c.weightx = 0.5;
-		pane.add(funLabel, c);
+		pane.add(new JLabel(""), c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 3;
 		c.weightx = 0.5;
-		pane.add(funBox, c);
+		pane.add(new JLabel(""), c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -287,6 +281,9 @@ public class Window extends JFrame {
 		pane.add(sendButton, c);
 
 	}
+	
+	
+	
 
 	private void updateTextArea(final String text) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -325,49 +322,23 @@ public class Window extends JFrame {
 
 	}
 
-	public void connect() {
-
-		try {
-			bot.setName(usernameTF.getText());
-			bot.connect(serverTF.getText(), port, passwordTF.getText());
-			bot.joinChannel(channelTF.getText());
-			channels.add(channelTF.getText());
-			setConnectedLabel("Connected");
-			Palebot.setShouldBeConnected(true);
-		} catch (IOException | IrcException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			setConnectedLabel("Disconnected");
-		}
-
-	}
 
 	public class ConnectButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (bot == null) {
-				bot = Palebot.getBot();
-			}
-			if (!bot.isConnected()) {
-				connect();
-				Palebot.setShouldBeConnected(true);
+				Palebot.connectBot();
 			}
 
 		}
 
-	}
+	
 
 	public class SendButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (bot == null) {
-				bot = Palebot.getBot();
-			}
-			if (bot.isConnected() && messageTF.getText() != "") {
-				bot.sendMessage(channelTF.getText(), messageTF.getText());
-				Palebot.sendMessage();
+
+				Palebot.sendMessage(messageTF.getText());
 				messageTF.setText("");
-			}
 
 		}
 
@@ -427,66 +398,7 @@ public class Window extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (bot != null && bot.isConnected()) {
-				bot.disconnect();
-				setConnectedLabel("Disconnected");
-				Palebot.setShouldBeConnected(false);
-			}
-
-		}
-
+			Palebot.disconnectBot();
 	}
-
-	public void addQuotes() {
-		if(!bot.getListenerManager().listenerExists(quotes))
-		bot.getListenerManager().addListener(quotes);
-	}
-
-	public void removeQuotes() {
-		if(bot.getListenerManager().listenerExists(quotes))
-		bot.getListenerManager().removeListener(quotes);
-	}
-
-	public class BoxListener implements ItemListener {
-
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-
-			if (e.getSource() == finestBox) {
-
-				if (e.getStateChange() == 1) {
-					bot.getListenerManager().addListener(fko);
-				}
-				if (e.getStateChange() == 2) {
-					bot.getListenerManager().removeListener(fko);
-				}
-			} else if (e.getSource() == bannerBox) {
-
-				if (e.getStateChange() == 1) {
-					bot.getListenerManager().addListener(banner);
-				}
-				if (e.getStateChange() == 2) {
-					bot.getListenerManager().removeListener(banner);
-				}
-			} else if (e.getSource() == utilitiesBox) {
-				if (e.getStateChange() == 1) {
-					bot.getListenerManager().addListener(utilities);
-				}
-				if (e.getStateChange() == 2) {
-					bot.getListenerManager().removeListener(utilities);
-				}
-			} else if (e.getSource() == funBox) {
-
-				if (e.getStateChange() == 1) {
-					bot.getListenerManager().addListener(fun);
-				}
-				if (e.getStateChange() == 2) {
-					bot.getListenerManager().removeListener(fun);
-				}
-
-			}
-
-		}
-
-	}
+}
 }

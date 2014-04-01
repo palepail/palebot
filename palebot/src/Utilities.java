@@ -1,23 +1,12 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
 
 import javax.swing.Timer;
 
 import org.pircbotx.PircBotX;
-import org.pircbotx.exception.IrcException;
-import org.pircbotx.exception.NickAlreadyInUseException;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 
@@ -29,7 +18,7 @@ public class Utilities extends ListenerAdapter {
 		/**
 		 * palebot info
 		 */
-		if (event.getMessage().equals("!palebot") && event.getUser().getChannelsOpIn().contains(event.getChannel())) {
+		if (event.getMessage().equals("!palebot") &&  event.getUser().getChannelsOpIn().contains(event.getChannel())) {
 			if (Palebot.getMessageCount() < 19) {
 				event.getBot().sendMessage(event.getChannel(),
 
